@@ -1,70 +1,575 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Unknown Experiment</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Unknown Experiment</title>
+  <meta name="description" content="A public social experiment exploring trust, curiosity and voluntary support between strangers." />
 
-<style>
-body{
-    font-family:Arial,sans-serif;
-    background:#111;
-    color:#fff;
-    text-align:center;
-    padding:50px;
-    max-width:900px;
-    margin:auto;
-}
+  <style>
+    :root {
+      --bg: #080808;
+      --bg-soft: #111111;
+      --card: #171717;
+      --card-soft: #1f1f1f;
+      --text: #f4f4f4;
+      --muted: #b8b8b8;
+      --line: #333333;
+      --accent: #ffffff;
+      --success: #d6d6d6;
+    }
 
-h1{
-    font-size:48px;
-}
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-.section{
-    margin-top:40px;
-}
+    html {
+      scroll-behavior: smooth;
+    }
 
-a{
-    color:#00d4ff;
-}
-</style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(255,255,255,0.08), transparent 35%),
+        radial-gradient(circle at bottom right, rgba(255,255,255,0.04), transparent 35%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    a {
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .container {
+      width: min(1100px, 92%);
+      margin: 0 auto;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(14px);
+      background: rgba(8, 8, 8, 0.82);
+      border-bottom: 1px solid var(--line);
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 0;
+    }
+
+    .brand {
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 22px;
+      font-size: 0.92rem;
+      color: var(--muted);
+    }
+
+    .hero {
+      min-height: 82vh;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 90px 0 70px;
+    }
+
+    .badge {
+      display: inline-flex;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 8px 14px;
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-bottom: 24px;
+      background: rgba(255,255,255,0.03);
+    }
+
+    h1 {
+      font-size: clamp(2.8rem, 7vw, 6rem);
+      line-height: 0.95;
+      letter-spacing: -0.06em;
+      margin-bottom: 28px;
+    }
+
+    .hero-question {
+      max-width: 780px;
+      margin: 0 auto;
+      color: var(--muted);
+      font-size: clamp(1.15rem, 2vw, 1.45rem);
+    }
+
+    .hero-actions {
+      margin-top: 36px;
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border: 1px solid var(--accent);
+      padding: 13px 20px;
+      border-radius: 999px;
+      font-weight: 700;
+      transition: 0.2s ease;
+    }
+
+    .btn.primary {
+      background: var(--accent);
+      color: #000;
+    }
+
+    .btn.secondary {
+      color: var(--text);
+      background: transparent;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      text-decoration: none;
+    }
+
+    section {
+      padding: 76px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .section-title {
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      letter-spacing: -0.04em;
+      line-height: 1.05;
+      margin-bottom: 22px;
+    }
+
+    .section-intro {
+      color: var(--muted);
+      max-width: 760px;
+      font-size: 1.08rem;
+      margin-bottom: 34px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .card {
+      background: linear-gradient(180deg, var(--card), var(--bg-soft));
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 26px;
+      min-height: 170px;
+    }
+
+    .card h3 {
+      font-size: 1.15rem;
+      margin-bottom: 12px;
+    }
+
+    .card p,
+    .card li {
+      color: var(--muted);
+    }
+
+    .principles {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .principle {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 18px;
+      color: var(--muted);
+    }
+
+    .principle strong {
+      color: var(--text);
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .charter-list {
+      display: grid;
+      gap: 16px;
+    }
+
+    .charter-item {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 24px;
+    }
+
+    .charter-item h3 {
+      margin-bottom: 10px;
+      font-size: 1.1rem;
+    }
+
+    .charter-item p {
+      color: var(--muted);
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .stat {
+      background: var(--card-soft);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 22px;
+    }
+
+    .stat span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-bottom: 8px;
+    }
+
+    .stat strong {
+      font-size: 1.65rem;
+    }
+
+    .faq {
+      display: grid;
+      gap: 14px;
+    }
+
+    details {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 20px;
+    }
+
+    summary {
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    details p {
+      margin-top: 12px;
+      color: var(--muted);
+    }
+
+    .notice {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.04);
+      border-radius: 22px;
+      padding: 24px;
+      color: var(--muted);
+      margin-top: 26px;
+    }
+
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 34px 0;
+      color: var(--muted);
+      text-align: center;
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 800px) {
+      nav {
+        align-items: flex-start;
+        gap: 16px;
+        flex-direction: column;
+      }
+
+      .nav-links {
+        flex-wrap: wrap;
+        gap: 14px;
+      }
+
+      .grid,
+      .principles,
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        min-height: auto;
+        padding-top: 70px;
+      }
+    }
+  </style>
 </head>
 
 <body>
+  <header>
+    <div class="container">
+      <nav>
+        <a class="brand" href="#top">The Unknown Experiment</a>
+        <div class="nav-links">
+          <a href="#about">About</a>
+          <a href="#charter">Charter</a>
+          <a href="#progress">Progress</a>
+          <a href="#faq">FAQ</a>
+          <a href="https://x.com/TheUnknownExp" target="_blank" rel="noopener">X</a>
+        </div>
+      </nav>
+    </div>
+  </header>
 
-<h1>The Unknown Experiment</h1>
+  <main id="top">
+    <section class="hero">
+      <div class="container">
+        <div class="badge">Anonymous • Public • Transparent</div>
+        <h1>The Unknown<br />Experiment</h1>
+        <p class="hero-question">
+          Can strangers voluntarily support another stranger when there is no reward, no emergency, and no obligation?
+        </p>
+        <div class="hero-actions">
+          <a class="btn primary" href="#charter">Read the Charter</a>
+          <a class="btn secondary" href="#progress">View Progress</a>
+        </div>
+      </div>
+    </section>
 
-<p>
-Can strangers voluntarily support another stranger?
-</p>
+    <section id="about">
+      <div class="container">
+        <h2 class="section-title">About the experiment</h2>
+        <p class="section-intro">
+          The Unknown Experiment is a public social experiment exploring trust, curiosity, transparency and voluntary support between strangers.
+        </p>
 
-<div class="section">
-<h2>About</h2>
+        <div class="grid">
+          <div class="card">
+            <h3>Anonymous by design</h3>
+            <p>
+              The creator remains anonymous to preserve privacy and keep the focus on the experiment rather than the individual behind it.
+            </p>
+          </div>
 
-<p>
-The Unknown Experiment is a public social experiment exploring trust, curiosity and voluntary support between strangers.
-</p>
-</div>
+          <div class="card">
+            <h3>No promise</h3>
+            <p>
+              This is not an investment, not a charity campaign, not a product and not a financial opportunity.
+            </p>
+          </div>
 
-<div class="section">
-<h2>Principles</h2>
+          <div class="card">
+            <h3>Public observation</h3>
+            <p>
+              Success or failure will both be documented honestly. A lack of participation is also a valid result.
+            </p>
+          </div>
+        </div>
 
-<p>
-✓ No rewards<br>
-✓ No obligations<br>
-✓ No investment<br>
-✓ Full transparency<br>
-✓ Honest reporting
-</p>
-</div>
+        <div class="notice">
+          The creator is based in Central Africa. The exact identity and location are intentionally not disclosed for privacy reasons.
+        </div>
+      </div>
+    </section>
 
-<div class="section">
-<h2>Follow the Experiment</h2>
+    <section id="principles">
+      <div class="container">
+        <h2 class="section-title">Core principles</h2>
+        <p class="section-intro">
+          These principles guide every public statement, update and future contribution method connected to the experiment.
+        </p>
 
-<p>
-X: @TheUnknownExp
-</p>
-</div>
+        <div class="principles">
+          <div class="principle"><strong>No rewards</strong>No product, service, benefit or privilege is offered.</div>
+          <div class="principle"><strong>No obligation</strong>Everyone is free to ignore, observe or participate.</div>
+          <div class="principle"><strong>No investment</strong>No return, profit, interest or financial gain is promised.</div>
+          <div class="principle"><strong>No fake story</strong>No invented emergency, false identity or emotional manipulation.</div>
+          <div class="principle"><strong>Public reporting</strong>Progress and results will be documented publicly.</div>
+          <div class="principle"><strong>Failure accepted</strong>If nothing happens, that result will be shared honestly.</div>
+        </div>
+      </div>
+    </section>
 
+    <section id="charter">
+      <div class="container">
+        <h2 class="section-title">Transparency Charter</h2>
+        <p class="section-intro">
+          This charter defines the rules of The Unknown Experiment. It exists to make the project clear, honest and understandable before any participation.
+        </p>
+
+        <div class="charter-list">
+          <div class="charter-item">
+            <h3>Article 1 — Purpose</h3>
+            <p>
+              The purpose of The Unknown Experiment is to observe whether strangers are willing to voluntarily support another stranger without reward, emergency, obligation or personal relationship.
+            </p>
+          </div>
+
+          <div class="charter-item">
+            <h3>Article 2 — Voluntary participation</h3>
+            <p>
+              Participation is entirely voluntary. No person is required, pressured or individually targeted to contribute.
+            </p>
+          </div>
+
+          <div class="charter-item">
+            <h3>Article 3 — No compensation</h3>
+            <p>
+              Contributors receive no product, service, reward, privilege, access, ownership, voting right or compensation of any kind.
+            </p>
+          </div>
+
+          <div class="charter-item">
+            <h3>Article 4 — Not an investment</h3>
+            <p>
+              The Unknown Experiment is not an investment opportunity. No profit, interest, dividend, token, return or financial benefit is promised or implied.
+            </p>
+          </div>
+
+          <div class="charter-item">
+            <h3>Article 5 — Transparency</h3>
+            <p>
+              The progress of the experiment will be reported publicly through updates, statistics and observations. The objective is to document what happens honestly.
+            </p>
+          </div>
+
+          <div class="charter-item">
+            <h3>Article 6 — Use of funds</h3>
+            <p>
+              Any funds received may be used by the anonymous creator to support personal or professional activities. No specific use is guaranteed.
+            </p>
+          </div>
+
+          <div class="charter-item">
+            <h3>Article 7 — Privacy</h3>
+            <p>
+              The creator chooses to remain anonymous to protect personal privacy. The experiment focuses on trust between strangers, not on the public identity of the creator.
+            </p>
+          </div>
+
+          <div class="charter-item">
+            <h3>Article 8 — No manipulation</h3>
+            <p>
+              No fabricated stories, false emergencies, fake testimonials, misleading identities or emotional manipulation will be used to encourage participation.
+            </p>
+          </div>
+
+          <div class="charter-item">
+            <h3>Article 9 — Right to ignore</h3>
+            <p>
+              Every visitor is free to participate, follow, question, criticize, observe or ignore the experiment. Non-participation is fully respected.
+            </p>
+          </div>
+
+          <div class="charter-item">
+            <h3>Article 10 — Failure is valid</h3>
+            <p>
+              The experiment may fail. If no one participates, or if participation remains low, that outcome will be treated as a valid result and documented openly.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="progress">
+      <div class="container">
+        <h2 class="section-title">Current progress</h2>
+        <p class="section-intro">
+          This section will be updated manually during the first phase of the experiment.
+        </p>
+
+        <div class="stats">
+          <div class="stat">
+            <span>Experiment status</span>
+            <strong>Launched</strong>
+          </div>
+          <div class="stat">
+            <span>Public contributions</span>
+            <strong>0</strong>
+          </div>
+          <div class="stat">
+            <span>Published reports</span>
+            <strong>0</strong>
+          </div>
+          <div class="stat">
+            <span>Location</span>
+            <strong>Central Africa</strong>
+          </div>
+        </div>
+
+        <div class="notice">
+          Contribution methods are not published yet. The charter and public rules are being established first.
+        </div>
+      </div>
+    </section>
+
+    <section id="faq">
+      <div class="container">
+        <h2 class="section-title">FAQ</h2>
+        <p class="section-intro">
+          Simple answers to the most important questions about the experiment.
+        </p>
+
+        <div class="faq">
+          <details>
+            <summary>Who is behind The Unknown Experiment?</summary>
+            <p>The creator is an anonymous individual based in Central Africa.</p>
+          </details>
+
+          <details>
+            <summary>Why remain anonymous?</summary>
+            <p>To preserve privacy and keep the focus on the social experiment rather than the personal identity of the creator.</p>
+          </details>
+
+          <details>
+            <summary>Is this an investment?</summary>
+            <p>No. This is not an investment. No financial return, profit or benefit is promised.</p>
+          </details>
+
+          <details>
+            <summary>Is this a charity?</summary>
+            <p>No. This is not presented as a charity or emergency campaign. It is a public social experiment.</p>
+          </details>
+
+          <details>
+            <summary>Will contributors receive anything?</summary>
+            <p>No. Contributors receive no reward, no product, no service and no special access.</p>
+          </details>
+
+          <details>
+            <summary>What happens if the experiment fails?</summary>
+            <p>Failure will be documented honestly. A lack of participation is also a meaningful result.</p>
+          </details>
+
+          <details>
+            <summary>Where can I follow updates?</summary>
+            <p>Updates are published on X at <a href="https://x.com/TheUnknownExp" target="_blank" rel="noopener">@TheUnknownExp</a>.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>The Unknown Experiment — Public social experiment based on honesty, curiosity and transparency.</p>
+      <p><a href="https://x.com/TheUnknownExp" target="_blank" rel="noopener">Follow on X: @TheUnknownExp</a></p>
+    </div>
+  </footer>
 </body>
 </html>
