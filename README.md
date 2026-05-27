@@ -186,3 +186,43 @@ Anyone considering participation should first understand:
 
 ```text
 bc1q0dj56cxrfg3vmmws7c7xye4qj2j4h9lkv0evya
+
+```
+
+
+
+Public blockchain explorer:
+
+https://www.blockchain.com/explorer/addresses/btc/bc1q0dj56cxrfg3vmmws7c7xye4qj2j4h9lkv0evya
+
+⸻
+
+Official Links
+
+Website
+
+https://theunknonwexperiment.github.io/
+
+X / Twitter
+
+https://x.com/TheUnknownExp
+
+⸻
+
+Current Status
+
+* Website launched
+* Public charter published
+* Public wallet published
+* Public tracking enabled
+* Experiment active
+
+⸻
+
+Final Note
+
+The Unknown Experiment is not asking the world to believe in a person.
+
+It is asking a question about people.
+
+The outcome remains unknown.
