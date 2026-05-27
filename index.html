@@ -529,7 +529,7 @@
           </div>
           <div class="stat">
             <span>Public contributions</span>
-            <strong>0</strong>
+            <strong id="progress-btc">Loading...</strong>
           </div>
           <div class="stat">
             <span>Published reports</span>
@@ -671,6 +671,7 @@
       const usdElement = document.getElementById("btc-usd");
       const eurElement = document.getElementById("btc-eur");
       const txElement = document.getElementById("btc-tx");
+      const progressElement = document.getElementById("progress-btc");
 
       try {
         const walletResponse = await fetch(`https://blockstream.info/api/address/${address}`);
@@ -686,6 +687,7 @@
         const transactions = walletData.chain_stats.tx_count || 0;
 
         balanceElement.innerText = balance.toFixed(8) + " BTC";
+        progressElement.innerText = balance.toFixed(8) + " BTC";
         txElement.innerText = transactions;
 
         const priceResponse = await fetch(
@@ -708,6 +710,7 @@
         usdElement.innerText = "Unavailable";
         eurElement.innerText = "Unavailable";
         txElement.innerText = "Unavailable";
+        progressElement.innerText = "Unavailable";
       }
     }
 
